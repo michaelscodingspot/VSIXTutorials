@@ -67,7 +67,7 @@ namespace AddMenuItem4
             {
                 var mousePos = e.GetPosition(_view.VisualElement);
 
-                int streamPosition = MouseHelper.GetMouseLocation(_viewAdapter, _view, mousePos);
+                int streamPosition = MouseHelper.GetMousePositionInTextView(_viewAdapter, _view, mousePos);
                 //_viewAdapter.GetNearestPosition(line, column, out int position1, out int spaces);
 
                 var document = _view.TextSnapshot.TextBuffer.GetRelatedDocuments().First();

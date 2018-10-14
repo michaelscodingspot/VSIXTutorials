@@ -10,7 +10,7 @@ namespace AddMenuItem4
 {
 internal static class MouseHelper
 {
-    public static int GetMouseLocation(IVsTextView view, IWpfTextView wpfTextView, Point wpfClientPoint)
+    public static int GetMousePositionInTextView(IVsTextView view, IWpfTextView wpfTextView, Point wpfClientPoint)
     {
         ITextViewLine textViewLine =
             wpfTextView.TextViewLines.GetTextViewLineContainingYCoordinate(wpfClientPoint.Y + wpfTextView.ViewportTop);
