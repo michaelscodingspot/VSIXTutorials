@@ -67,16 +67,16 @@ namespace AddMenuItem4
             {
                 var mousePos = e.GetPosition(_view.VisualElement);
 
-                int position2 = MouseHelper.GetMouseLocation(_viewAdapter, _view, mousePos, out int line, out int column);
-                _viewAdapter.GetNearestPosition(line, column, out int position1, out int spaces);
+                int streamPosition = MouseHelper.GetMouseLocation(_viewAdapter, _view, mousePos);
+                //_viewAdapter.GetNearestPosition(line, column, out int position1, out int spaces);
 
                 var document = _view.TextSnapshot.TextBuffer.GetRelatedDocuments().First();
                 var syntaxTree = document.GetSyntaxTreeAsync().GetAwaiter().GetResult();
-                var token = syntaxTree.GetRoot().FindToken(position1);
+                var token = syntaxTree.GetRoot().FindToken(streamPosition);
 
-                if (position1 != 0)
+                if (streamPosition != 0)
                 {
-                    Debug.WriteLine($"position1 = {position1} position2 = {position2} token={token.ToString()}");
+                    Debug.WriteLine($"position = {streamPosition} token={token.ToString()}");
                 }
                 else
                 {

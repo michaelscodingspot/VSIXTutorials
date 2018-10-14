@@ -10,11 +10,8 @@ namespace AddMenuItem4
 {
 internal static class MouseHelper
 {
-    public static int GetMouseLocation(IVsTextView view, IWpfTextView wpfTextView, Point wpfClientPoint, out int line, out int column)
+    public static int GetMouseLocation(IVsTextView view, IWpfTextView wpfTextView, Point wpfClientPoint)
     {
-        line = 0;
-        column = 0;
-
         ITextViewLine textViewLine =
             wpfTextView.TextViewLines.GetTextViewLineContainingYCoordinate(wpfClientPoint.Y + wpfTextView.ViewportTop);
 
@@ -28,8 +25,9 @@ internal static class MouseHelper
             return 0;
         }
         
-    
-        view.GetLineAndColumn(bufferPositionFromXCoordinate.Value.Position, out line, out column);
+        // Following can get line and column if necessary
+        // view.GetLineAndColumn(bufferPositionFromXCoordinate.Value.Position, out line, out column);
+
         return bufferPositionFromXCoordinate.Value.Position;
     }
 
