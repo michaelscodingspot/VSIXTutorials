@@ -55,6 +55,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CodyDocsPackageAP.cs" />
+    <Compile Include="HighlightTaggerProvider.cs" />
     <Compile Include="MouseHelper.cs" />
     <Compile Include="MyMouseHoverProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

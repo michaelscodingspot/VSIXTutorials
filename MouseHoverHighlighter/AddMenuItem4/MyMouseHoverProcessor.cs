@@ -25,18 +25,20 @@ namespace AddMenuItem4
     internal sealed class MyMouseHoverProcessorProvider : IMouseProcessorProvider//, IStartable
     {
         private readonly IVsEditorAdaptersFactoryService _editorAdapters;
+        private readonly CurrentWordPosition _currentWordPosition;
 
         [ImportingConstructor]
         public MyMouseHoverProcessorProvider(
-            IVsEditorAdaptersFactoryService editorAdapters)
+            IVsEditorAdaptersFactoryService editorAdapters, CurrentWordPosition currentWordPosition)
         {
             _editorAdapters = editorAdapters;
+            _currentWordPosition = currentWordPosition;
         }
 
 
         public IMouseProcessor GetAssociatedProcessor(IWpfTextView wpfTextView)
         {
-            return new MyMouseHoverProcessor(wpfTextView, _editorAdapters);
+            return new MyMouseHoverProcessor(wpfTextView, _editorAdapters, _currentWordPosition);
         }
     }
 
@@ -44,22 +46,16 @@ namespace AddMenuItem4
     internal class MyMouseHoverProcessor : MouseProcessorBase
     {
         private readonly IWpfTextView _view;
+        private readonly CurrentWordPosition _currentWordPosition;
         private readonly IVsTextView _viewAdapter;
 
-        //private readonly Subject<MousePosData> _mouseMovmentSubject = new Subject<MousePosData>();
-
-        public MyMouseHoverProcessor(IWpfTextView wpfTextView, IVsEditorAdaptersFactoryService editorAdapters)
+        public MyMouseHoverProcessor(IWpfTextView wpfTextView, IVsEditorAdaptersFactoryService editorAdapters,
+            CurrentWordPosition currentWordPosition)
         {
             _view = wpfTextView;
+            _currentWordPosition = currentWordPosition;
             _viewAdapter = editorAdapters.GetViewAdapter(wpfTextView);
-
-            //_mouseMovmentSubject
-            //    .Sample(TimeSpan.FromMilliseconds(30))
-            //    .ObserveOnDispatcher()
-            //    .Subscribe(OnMouseMove);
         }
-
-
 
         public override void PostprocessMouseMove(MouseEventArgs e)
         {
@@ -68,7 +64,6 @@ namespace AddMenuItem4
                 var mousePos = e.GetPosition(_view.VisualElement);
 
                 int streamPosition = MouseHelper.GetMousePositionInTextView(_viewAdapter, _view, mousePos);
-                //_viewAdapter.GetNearestPosition(line, column, out int position1, out int spaces);
 
                 var document = _view.TextSnapshot.TextBuffer.GetRelatedDocuments().First();
                 var syntaxTree = document.GetSyntaxTreeAsync().GetAwaiter().GetResult();
@@ -84,6 +79,7 @@ namespace AddMenuItem4
                 }
 
                 base.PreprocessMouseMove(e);
+                _currentWordPosition.InvokeWordUnderMouseChanged(token.Span.Start, token.Span.End);
             }
             catch (Exception ex)
             {
@@ -93,50 +89,4 @@ namespace AddMenuItem4
     }
 }
 
-//private void OnMouseMove(MousePosData mouseMove)
-//{
-//    if (!_active)
-//        return;
 
-//    int position = mouseMove.SyntaxTree.GetPosition(mouseMove.DocPosition);
-//    int startPositionForProjectionBuffer = _view.TextBuffer.GetStartPosition();
-//    position += startPositionForProjectionBuffer;
-
-//    ConfirmMouseIsEntirelyWithinLine(ref mouseMove, ref position);
-
-//    _mouseHoverHandlers.ForEach(handler =>
-//    {
-//        try
-//        {
-//            handler.OnMouseMove(mouseMove, position, _view);
-//        }
-//        catch (Exception ex)
-//        {
-//            ErrorNotificationLogger.LogErrorWithoutShowingErrorNotificationUI("OnMouseMove", ex);
-//        }
-//    });
-//}
-
-///// <summary>
-///// Sometimes we get mouse position even when cursor is not entirely in line limits, but rather a bit above or below.
-///// This method makes sure mouse is near middle of line, and changes position to 0 if not.
-///// </summary>
-//private void ConfirmMouseIsEntirelyWithinLine(ref MousePosData mouseMove, ref int position)
-//{
-//    _viewAdapter.GetLineAndColumn(position, out int piLine, out int piColumn);
-
-//    POINT[] ppt = new POINT[1];
-//    _viewAdapter.GetPointOfLineColumn(piLine, piColumn, ppt);
-//    _viewAdapter.GetLineHeight(out int piLineHeight);
-
-//    var zoomLevel = _view.ZoomLevel / 100.0;
-//    var mouseYNormalized = mouseMove.MousePosition.Y * zoomLevel;
-
-//    double lowRange = ppt[0].y + (0.1 * piLineHeight);
-//    double highRange = lowRange + (0.8 * piLineHeight);
-//    if (!(mouseYNormalized > lowRange && mouseYNormalized < highRange))
-//    {
-//        position = 0;
-//        mouseMove.DocPosition = new DebuggerPosition();
-//    }
-//}
