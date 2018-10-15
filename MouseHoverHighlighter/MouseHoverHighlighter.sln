@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddMenuItem4", "AddMenuItem4\AddMenuItem4.csproj", "{DE9CD9FE-9E4E-447C-85E0-D7690A848F01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseHoverHighlighter", "AddMenuItem4\MouseHoverHighlighter.csproj", "{DE9CD9FE-9E4E-447C-85E0-D7690A848F01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
