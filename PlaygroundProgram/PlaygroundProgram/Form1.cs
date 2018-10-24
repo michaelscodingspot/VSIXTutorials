@@ -19,7 +19,21 @@ namespace PlaygroundProgram
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new FormValidation().ValidateDetails();
+            new FormValidation().ValidateDetails(new FormDetails()
+            {
+                Age = 35,
+                AgreeToTermsAndConditions = true,
+                FirstName = "Bill",
+                LastName = "Smith",
+                Password = "aSafas234SDF2"
+            }
+
+                );
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new Discount().CalcDiscount();
         }
     }
 }

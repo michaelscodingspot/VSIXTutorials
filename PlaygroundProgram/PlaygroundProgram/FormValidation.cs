@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace PlaygroundProgram
     {
         public void ValidateDetails(FormDetails details)
         {
+            Debugger.Break();
+
             if (details.FirstName.Length < 2)
             {
                 throw new InvalidDetailsException("Invalid length", nameof(details.FirstName));
