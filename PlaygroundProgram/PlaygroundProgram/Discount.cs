@@ -9,17 +9,31 @@ namespace PlaygroundProgram
 {
     public class Discount
     {
-        public void CalcDiscount()
+        public int GetPriceAfterDiscount(int initialPrice, int discountInPercent)
         {
             Debugger.Break();
+            int discount = CalculateDiscount(initialPrice, discountInPercent);
 
-            int initialPrice = 1000;
-            int discountInPercentage = 25;
-
-            int discount = discountInPercentage / 100 * initialPrice;
             int price = initialPrice - discount;
+            return price;
+        }
 
-            Debug.Assert(price == 750);
+
+
+
+
+
+
+
+
+
+
+
+
+        private int CalculateDiscount(int price, int percent)
+        {
+            int discount = percent * price / 100 ;
+            return discount;
         }
     }
 }

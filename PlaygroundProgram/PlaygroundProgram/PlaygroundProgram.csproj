@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Customers\Customer.cs" />
+    <Compile Include="Customers\CustomerRepository.cs" />
     <Compile Include="Discount.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -81,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Flows\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

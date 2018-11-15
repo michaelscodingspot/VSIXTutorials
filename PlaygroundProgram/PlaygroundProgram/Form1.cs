@@ -33,7 +33,7 @@ namespace PlaygroundProgram
 
         private void button2_Click(object sender, EventArgs e)
         {
-            new Discount().CalcDiscount();
+            new Discount().GetPriceAfterDiscount(1000, 25);
         }
     }
 }
